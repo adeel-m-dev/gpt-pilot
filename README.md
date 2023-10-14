@@ -1,7 +1,7 @@
 # 🧑‍✈️ GPT PILOT
 ### GPT Pilot helps developers build apps 20x faster
 
-You specify what kind of app you want to build. Then, GPT Pilot asks clarifying questions, creates the product and technical requirements, sets up the environment, and **starts coding the app step by step, like in real life, while you oversee the development process**. It asks you to review each task it finishes or to help when it gets stuck. This way, GPT Pilot acts as a coder while you are a lead dev who reviews code and helps when needed.
+When you want to build an app, you can specify the type of app you'd like to create using the GPT Pilot. The Pilot will then ask you questions to clarify your requirements, create the necessary product and technical specifications, set up the environment, and start coding the app step by step, much like a real developer. You'll oversee the development process and be asked to review each task the Pilot completes or to provide assistance when it needs help. Essentially, the GPT Pilot will act as a coder while you function as a lead developer who reviews code and provides help when necessary.
 
 ---
 
@@ -199,16 +199,20 @@ Here are a couple of example apps GPT Pilot created by itself:
 <br>
 
 # 🏛 Main pillars of GPT Pilot:
-1. For AI to create a fully working app, **a developer needs to be involved** in the app creation process. They need to be able to change the code at any moment, and GPT Pilot needs to continue working with those changes (e.g., add an API key or fix an issue if an AI gets stuck). <br><br>
-2. **The app needs to be written step by step as a developer would write it** - Let's say you want to create a simple app, know everything you need to code, and have the entire architecture in your head. Even then, you won't code it out entirely, then run it for the first time and debug all the issues simultaneously. Instead, you will implement something simple, like add routes, run it, see how it works, and then move on to the next task. This way, you can debug issues as they arise. The same should be the case when AI codes. It will make mistakes for sure, so in order for it to have an easier time debugging issues and for the developer to understand what is happening, the AI shouldn't just spit out the entire codebase at once. Instead, the app should be developed step by step just like a developer would code it - e.g. setup routes, add database connection, etc. <br><br>
-3. **The approach needs to be scalable** so that AI can create a production-ready app:
-   1. **Context rewinding** - for solving each development task, the context size of the first message to the LLM has to be relatively the same. For example, the context size of the first LLM message while implementing development task #5 has to be more or less the same as the first message while developing task #50. Because of this, the conversation needs to be rewound to the first message upon each task. [See the diagram here](https://blogpythagora.files.wordpress.com/2023/08/pythagora-product-development-frame-3-1.jpg?w=1714).
-   2. **Recursive conversations** are LLM conversations set up to be used “recursively”. For example, if GPT Pilot detects an error, it needs to debug it, but let’s say that another error happens during the debugging process. Then, GPT Pilot needs to stop debugging the first issue, fix the second one, and get back to fixing the first issue. This is a very important concept that, I believe, needs to work to make AI build large and scalable apps by itself. It works by rewinding the context and explaining each error in the recursion separately. Once the deepest level error is fixed, we move up in the recursion and continue fixing that error. We do this until the entire recursion is completed. 
-   3. **TDD (Test Driven Development)** - for GPT Pilot to be able to scale the codebase, it will need to be able to create new code without breaking previously written code. There is no better way to do this than working with TDD methodology. For each code that GPT Pilot writes, it needs to write tests that check if the code works as intended so that all previous tests can be run whenever new changes are made.
 
-The idea is that AI won't be able to (at least in the near future) create apps from scratch without the developer being involved. That's why we created an interactive tool that generates code but also requires the developer to check each step so that they can understand what's going on and so that the AI can have a better overview of the entire codebase.
+Creating a fully functional app with the help of AI requires the involvement of a developer in the app creation process. The developer needs to have the ability to make changes to the code at any given moment, and the AI needs to continue functioning with those changes. This could include adding an API key or fixing any issues that arise if the AI gets stuck.
 
-Obviously, it still can't create any production-ready app but the general concept of how this could work is there.
+The app needs to be written step-by-step in the same way a developer would write it. When a developer creates an app, they don't write out the entire codebase at once. Instead, they implement the basic features, run them, and debug any issues that arise before moving on to the next task. The same approach should be used when AI codes. The AI will make mistakes, so it needs to be developed step-by-step, just like a developer would code it. For example, the developer should set up routes, add a database connection, etc.
+
+The approach to building the app with the help of AI needs to be scalable to create a production-ready app. There are three important aspects to consider:
+
+1. Context rewinding - the context size of the first message to the LLM has to be relatively the same for solving each development task. This means that the conversation needs to be rewound to the first message upon each task. 
+
+2. Recursive conversations - LLM conversations need to be set up to be used "recursively." If GPT Pilot detects an error, it needs to debug it. If another error occurs during the debugging process, GPT Pilot needs to stop debugging the first issue, fix the second one and then return to fixing the first issue. The process works by rewinding the context and explaining each error in the recursion separately. Once the deepest level error is fixed, we move up in the recursion and continue fixing that error. We do this until the entire recursion is completed.
+
+3. TDD (Test Driven Development) - GPT Pilot needs to create new code without breaking previously written code. The best way to do this is to work with TDD methodology. For each code that GPT Pilot writes, it needs to write tests that check if the code works as intended so that all previous tests can be run whenever new changes are made.
+
+In summary, the idea is that AI cannot create apps from scratch without the developer's involvement. An interactive tool has been created that generates code but also requires the developer to check each step to understand what's going on and for the AI to have a better overview of the entire codebase. While AI cannot create a production-ready app on its own, the general concept of how this could work is there.
 
 # 🏗 How GPT Pilot works?
 Here are the steps GPT Pilot takes to create an app:
@@ -222,7 +226,7 @@ Here are the steps GPT Pilot takes to create an app:
 5. **DevOps agent** checks if all technologies are installed on the machine and installs them if not.
 6. **Tech Lead agent** writes up development tasks that the Developer must implement. This is an important part because, for each step, the Tech Lead needs to specify how the user (real-world developer) can review if the task is done (e.g. open localhost:3000 and do something).
 7. **Developer agent** takes each task and writes up what needs to be done to implement it. The description is in human-readable form.
-8. Finally, **Code Monkey agent** takes the Developer's description and the existing file and implements the changes. We realized this works much better than giving it to the Developer right away to implement changes.
+8. Finally, the **Code Monkey agent** takes the Developer's description and the existing file and implements the changes. We realized this works much better than giving it to the Developer right away to implement changes.
 
 For more details on the roles of agents employed by GPT Pilot, please take a look at [AGENTS.md](https://github.com/Pythagora-io/gpt-pilot/blob/main/pilot/helpers/agents/AGENTS.md)
 
@@ -244,7 +248,7 @@ If you are interested in contributing to GPT Pilot, I would be more than happy t
 Since this is a research project, there are many areas that need to be researched on both practical and theoretical levels. We're happy to hear how the entire GPT Pilot concept can be improved. For example, maybe it would work better if we structured functional requirements differently, or maybe technical requirements need to be specified in a different way.
 
 ## 🖥 Development
-Other than the research, GPT Pilot needs to be debugged to work in different scenarios. For example, we realized that the quality of the code generated is very sensitive to the size of the development task. When the task is too broad, the code has too many bugs that are hard to fix, but when the development task is too narrow, GPT also seems to struggle in getting the task implemented into the existing code.
+Other than the research, the GPT Pilot needs to be debugged to work in different scenarios. For example, we realized that the quality of the code generated is very sensitive to the size of the development task. When the task is too broad, the code has too many bugs that are hard to fix, but when the development task is too narrow, GPT also seems to struggle in getting the task implemented into the existing code.
 
 # 🔗 Connect with us
 🌟 As an open-source tool, it would mean the world to us if you starred the GPT-pilot repo 🌟
